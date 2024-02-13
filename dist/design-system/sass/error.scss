@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+// Set mobile only variable so that the media query mixin doesn't print out non mobile rules
+@use "_func" as *;
+@import "_corefiles";
+@import '../../assets/sass/components/nav.global.scss';

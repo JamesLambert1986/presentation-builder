@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+@use "../node_modules/@iamproperty/components/assets/sass/_fonts" with (
+  $fontPath: "/design-system/fonts/"
+);
+
+@use "../node_modules/@iamproperty/components/assets/sass/_func" as * with (
+  $grid-breakpoints: ( // Fix the large breakpoint being used
+    xs: 0,
+    sm: 36em, /* 576 */
+    md: 62em,  /* 992 */
+  )
+);
+
+@import url('../node_modules/@iamproperty/components/assets/sass/_corefiles.scss');

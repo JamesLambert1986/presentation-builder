@@ -1,0 +1,49 @@
+@use "sass:math";
+@use "_func" as *;
+
+@layer reset, elements, components, templates, utilities, overrides;
+
+
+// Foundations
+@include layer('reset') {
+  @import "foundations/root.scss";
+  @import "foundations/reboot.scss";
+}
+
+@include layer('elements') {
+  @import "_elements.scss";
+}
+
+@include layer('components') {
+
+  // Make sure the first 
+  main {
+    position: relative;
+    
+    > *:first-child {
+      padding-top: 2rem;
+    }
+  }
+
+  // Deal with preloaded state of native components
+  @import "_components.scss";
+}
+
+@include layer('templates') {
+  @import "templates/form.scss";
+  @import "templates/auth.scss";
+}
+
+@include layer('utilities') {
+    
+  @import "_utilities.scss";
+}
+
+@include layer('overrides') {
+  @media (prefers-reduced-motion) {
+   * {
+    transition: unset;
+    animation: none;
+   }
+  }
+}

@@ -1,0 +1,241 @@
+@use "../_func" as *;
+
+:host {
+  
+  container-type: inline-size;
+  display: block;
+}
+
+.pagination {
+  display: block;
+
+  @include container-up(sm) {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between!important;
+    padding-top: rem(32);
+  }
+
+  > div {
+    
+    display: flex;
+    align-items: center;
+  }
+}
+
+// #region page jump and per page
+.pagination div:is(.page-jump, .per-page) {
+
+  border: 1px solid var(--colour-light);
+  height: rem(52);
+
+  display: none;
+  align-items: center;
+  padding-inline: 1rem;
+  
+  .select--minimal {
+    height: rem(52);
+    line-height: rem(52);
+    margin-left: rem(-16);
+    padding-left: rem(16);
+    font-weight: bold;
+  }
+
+  div:has(> select){
+    margin-bottom: 0;
+  }
+}
+
+.page-jump {
+  
+  border-right: none!important;
+}
+
+.total-pages {
+  white-space: nowrap;
+}
+
+:host([data-page-jump][data-minimal]) {
+  .page-jump {
+    display: flex!important;
+  }
+}
+@include container-up(sm) {
+:host([data-page-jump]) {
+  .page-jump {
+    display: flex!important;
+  }
+}
+}
+
+@include container-up(sm) {
+  :host([data-per-page]:not([data-page-jump][data-item-count])) {
+    .per-page {
+      display: flex!important;
+    }
+  }
+}
+@include container-up(md) {
+  :host([data-per-page][data-page-jump][data-item-count]) {
+    .per-page {
+      display: flex!important;
+    }
+  }
+}
+// #endregion
+
+// #region Item count
+.pagination > .item-count {
+  display: block;
+  text-align: center;
+  margin-bottom: rem(16);
+  margin-inline: auto;
+}
+
+@include container-up(sm) {
+
+  .pagination > .item-count {
+    display: none;
+  }
+
+  :host([data-item-count]) {
+    .pagination > .item-count {
+      display: flex!important;
+      margin: 0;
+    }
+  }
+}
+// #endregion
+
+// #region buttons
+*:where(.prev, .next) {
+
+  border: 1px solid var(--colour-light);
+  line-height: rem(52);
+  height: rem(52);
+  margin: 0;
+  display: none;
+  background: none;
+  padding-inline: 1rem;
+
+  
+  @include container-up(sm) {
+
+    display: inline-block;
+  }
+
+  &:after {
+    margin-left: 0.5em;
+    font-size: 0.8rem;
+    content: "\f054";
+    font-family: "Font Awesome 6 Pro";
+    color:var(--colour-info);
+  }
+
+  &:is(:hover,:focus):not(:disabled){
+    background-color: var(--colour-light);
+  }
+
+  &:is(:active):not(:disabled){
+    background-color: #E0E0E0;
+  }
+
+  @include dark-mode(){
+    &:is(:hover,:focus):not(:disabled){
+      background-color: var(--colour-canvas);
+    }
+  
+    &:is(:active):not(:disabled){
+      background-color: var(--colour-canvas);
+    }
+  }
+
+  &:disabled {
+    
+    &:after,
+    &:before {
+      color: inherit!important;
+    }
+  }
+}
+
+:host([data-minimal]) {
+  .pagination {
+    justify-content: flex-end;
+
+    @include container-up(sm) {
+
+      justify-content: space-between;
+    }
+  }
+  *:where(.prev, .next){
+    display: inline-block!important;
+  }
+}
+
+.prev {
+
+  border-right: none;
+  &:after {
+    display: none;
+  }
+  &:before {
+    margin-right: 0.5em;
+    font-size: 0.8rem;
+    content: "\f053";
+    font-family: "Font Awesome 6 Pro";
+    color:var(--colour-info);
+  }
+}
+// #endregion
+
+// #region mobile button
+.mobile-controls {
+  display: block;
+}
+
+:host([data-minimal]) {
+  .pagination {
+    padding-top: rem(24);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  *:is(.mobile-controls,.item-count) {
+    display: none;
+  }
+}
+
+@include container-up(sm) {
+  .mobile-controls {
+    display: none!important;
+  }
+  :host([data-item-count]) {
+    .item-count {
+      display: flex!important;
+    }
+  }
+}
+
+.fa-spin {
+  display: none!important;
+  font-size: rem(48);
+  color: var(--colour-info);
+}
+
+:host([data-loading]) {
+
+  .mobile-controls {
+    padding-top: rem(32);
+  }
+  .item-count,
+  .mobile-controls > *:not(.fa-spin) {
+    display: none!important;
+  }
+  .fa-spin {
+    display: block!important;
+    margin: auto;
+  }
+}
+// #endregion

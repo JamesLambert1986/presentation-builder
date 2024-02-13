@@ -1,0 +1,205 @@
+@use "sass:math";
+@use "../_func" as *;
+
+@import "../../bootstrap/scss/_reboot.scss";
+
+/* Reset & Defaults - Most of the resets/normailization stuff is done by Bootstrap */
+html {
+
+  -webkit-font-smoothing: antialiased; // Fix for Safari/iOS
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  font-size: vw($device-xs-width);
+  scroll-padding-top: rem(100);
+  
+  @include media-breakpoint-up(sm) {
+    font-size: vw($device-sm-width);
+  }
+  @include media-breakpoint-up(md) {
+    font-size: vw($device-md-width);
+  }
+
+  @if $mobileOnly != "true" {
+    @media (min-width: #{em(1280)}) {
+      font-size: 100%;
+      font-size: vw(1280);
+
+      &:has(.nav--large) {
+        font-size: 100%;
+      }
+    }
+
+    @media (min-width: #{em(1440)}) {
+      font-size: 112.5%;
+
+      &:has(.nav--large) {
+        font-size: 100%;
+      }
+    }
+
+    @media (min-width: #{em(1680)}) {
+      //font-size: 131.25%;
+    }
+
+    @media print {
+      font-size: 16px;
+    }
+
+    @media screen and (min-width: 120em) { // 1920
+
+      &:has(.nav--large) {
+  
+        font-size: vw(1920);
+      }
+    }
+
+  }
+}
+
+body {
+  color-scheme: light dark;
+  @include var(background,--colour-canvas);
+  @include var(font-family,--font-body);
+  @include var(color,--colour-body);
+  width: 100%;
+  line-height: 1.2;
+  min-height: 100%;
+}
+
+// #region scrollbars
+:is(div,form,fieldset,textarea)::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+ 
+:is(div,form,fieldset,textarea)::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  border-top: 4px solid var(--colour-canvas-2);
+  border-left: 4px solid var(--colour-canvas-2);
+}
+ 
+:is(div,form,fieldset,textarea)::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  width: 6px;
+  border-top: 4px solid var(--colour-canvas-2);
+  border-left: 4px solid var(--colour-canvas-2);
+}
+
+
+//#endregion
+
+body > footer,
+body > #app > footer {
+  position: sticky;
+  top: 100vh;
+}
+
+address {
+  margin: 0;
+}
+
+button {
+  font-size: inherit;
+}
+
+button:focus {
+  border-radius: initial;
+  outline: 2px auto -webkit-focus-ring-color;
+}
+
+hr {
+  --border-style: solid;
+  --border-color: var(--colour-border);
+  border: 0;
+  color: transparent;
+  margin: 0;
+  border-bottom: none;
+  background-color: currentColor;
+  opacity: 1;
+  clear:both;
+
+
+  &:after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+}
+
+input[type="search" i]::-webkit-search-cancel-button {
+
+  appearance: none;
+}
+
+[list]::-webkit-calendar-picker-indicator {
+  display: none!important;
+}
+
+img {
+  max-width: 100%;
+}
+
+// Details reset
+summary {list-style: none}
+summary::-webkit-details-marker {display: none; }
+
+details summary { 
+  cursor: pointer;
+}
+
+details summary > * {
+  display: inline;
+}
+
+details {
+  width: 100%;
+}
+
+// Main grid setup to avoid having to use continaer divs
+
+*:not(.row) > main {
+  --full-width-start: 0;
+
+  @include media-breakpoint-up(md) {
+    --full-width-start: calc((100% - var(--container-max-width)) / 2);
+  }
+
+  display: grid;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  
+  grid-template-columns:
+  [full-width-start] var(--full-width-start)
+  [container-start] var(--padding-inline)
+  [content-start] min(
+  100% - (var(--padding-inline) * 2),
+  calc(var(--container-max-width) - (var(--padding-inline) * 2))
+  )
+  [content-end]
+  var(--padding-inline) [container-end]
+  var(--full-width-start) [full-width-end];
+
+  &:not(:has(.container:last-child)){
+    padding-bottom: 1rem;
+  }
+}
+
+main > :not(.full-width, .container, iam-header, [class*="bg-"]) {
+  grid-column: content;
+}
+
+
+main > :is(.full-width, .container, iam-header) {
+  grid-column: container;
+}
+
+main > :is(.full-width, [class*="bg-"]) {
+  grid-column: full-width;
+}
+
+.row > .col {
+  min-height: var(--min-height,0);
+}
